@@ -13,6 +13,8 @@ cohort = MarkovCls.Cohort(
 # simulate the cohort
 simOutputs = cohort.simulate()
 
+print('Number of strokes', simOutputs.get_if_developed_stroke())
+
 # graph survival curve
 PathCls.graph_sample_path(
     sample_path=simOutputs.get_survival_curve(),
@@ -33,4 +35,6 @@ Figs.graph_histogram(
 # print the outcomes of this simulated cohort
 SupportMarkov.print_outcomes(simOutputs, 'No treatment:')
 
+strokes = MarkovCls.PatientStateMonitor(parameters=P.ParametersFixed(therapy=P.Therapies.NONE))
 
+print('Number of strokes:', strokes.get_if_developed_stroke())
