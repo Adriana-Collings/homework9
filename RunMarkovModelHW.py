@@ -35,6 +35,4 @@ Figs.graph_histogram(
 # print the outcomes of this simulated cohort
 SupportMarkov.print_outcomes(simOutputs, 'No treatment:')
 
-strokes = MarkovCls.PatientStateMonitor(parameters=P.ParametersFixed(therapy=P.Therapies.NONE))
 
-print('Number of strokes:', strokes.get_if_developed_stroke())

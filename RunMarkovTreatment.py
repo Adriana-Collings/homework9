@@ -7,7 +7,7 @@ import InputDataTreat as Data
 
 # create a cohort
 cohort = MarkovCls.Cohort(
-    id=0,
+    id=1,
     therapy=P.Therapies.NONE)
 
 # simulate the cohort

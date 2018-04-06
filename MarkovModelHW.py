@@ -26,9 +26,6 @@ class Patient:  # when you store in self then all the things in that class have 
         # simulate time step
         self._delta_t = parameters.get_delta_t() # length of time step!
 
-       # self._survivalTimes = []
-        #self._survivalCurve = PathCls.SamplePathBatchUpdate('Patient stroke over time', id, initial_size=1)
-
     def simulate(self, sim_length):
         """ simulate the patient over the specified simulation length """
         # random number generator for this patient
@@ -52,28 +49,6 @@ class Patient:  # when you store in self then all the things in that class have 
             # increment time step
             k += 1
 
-        #survival_time = self._stateMonitor.get_survival_time()
-        #if not (survival_time is None):
-        #    self._survivalTimes.append(survival_time)  # store the survival time of this patient
-        #    self._survivalCurve.record(survival_time, -1)
-
-        #self._sumStat_survivalTime = StatCls.SummaryStat('Patient survival time', self._survivalTimes)
-
-    def simulate_treatment(self, sim_length):
-        self._rng = rndClasses.RNG(self._id)
-
-        k = 0
-
-        while self._stateMonitor.get_if_alive() and k*self._delta_t < sim_length:
-            trans_prob = self._param.get_transition_prob_treatment(self._stateMonitor.get_current_state())
-            empirical_dist = rndClasses.Empirical(trans_prob)
-            new_state_index = empirical_dist.sample(self._rng)
-
-            self._stateMonitor.update(k, P.HealthStats(new_state_index))
-
-            k += 1
-        return self.get_survival_time()
-
     def get_survival_time(self):
         """ returns the patient's survival time"""
         return self._stateMonitor.get_survival_time()
@@ -84,15 +59,6 @@ class Patient:  # when you store in self then all the things in that class have 
 
     def get_if_developed_stroke(self):
         return self._stateMonitor.get_if_developed_stroke()
-
-   # def get_time_of_survival(self):
-    #    return self._survivalTimes
-
-    #def get_survival_curve(self):
-     #   return self._survivalCurve
-
-   # def get_sumStat_survival_times(self):
-    #    return self._sumStat_survivalTime
 
 
 class PatientStateMonitor:
@@ -186,13 +152,6 @@ class Cohort:
             patient.simulate(Data.SIM_LENGTH)
 
         # return the cohort outputs
-        return CohortOutputs(self)
-
-    def simulate_treatment(self):
-
-        for patient in self._patients:
-            patient.simulate_treatment(Data.SIM_LENGTH)
-
         return CohortOutputs(self)
 
     def get_initial_pop_size(self):
